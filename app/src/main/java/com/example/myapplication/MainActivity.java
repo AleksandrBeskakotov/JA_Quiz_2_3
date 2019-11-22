@@ -26,8 +26,6 @@ public class MainActivity extends LoggingActivity {
     };
 
     private int mCurrentIndex = 0;
-    private int numberOfAnswers = 0;
-    private int numberOfCorrectAnswers = 0;
     private int numberOfQuestions = mQuestionBank.length;
 
     private String[] answers = new String[mQuestionBank.length];
@@ -83,6 +81,9 @@ public class MainActivity extends LoggingActivity {
             @Override
             public void onClick(View v) {
 
+                int numberOfAnswers = 0;
+                int numberOfCorrectAnswers = 0;
+
                 for (int pos = 0; pos < mQuestionBank.length; pos++){
                     if (answers[pos].equals(CORRECT_ANSWER) || answers[pos].equals(INCORRECT_ANSWER) ){
                         numberOfAnswers++;
@@ -100,8 +101,6 @@ public class MainActivity extends LoggingActivity {
                         Toast.LENGTH_LONG
                 ).show();
 
-                numberOfAnswers = 0;
-                numberOfCorrectAnswers = 0;
 
             }
         });
@@ -131,9 +130,7 @@ public class MainActivity extends LoggingActivity {
 
         if (currentQuestion.isCorrectAnswer() == answer){
             answers[mCurrentIndex] = CORRECT_ANSWER;
-        }
-
-        if (currentQuestion.isCorrectAnswer() != answer){
+        } else {
             answers[mCurrentIndex] = INCORRECT_ANSWER;
         }
 
