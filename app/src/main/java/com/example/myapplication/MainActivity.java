@@ -94,7 +94,6 @@ public class MainActivity extends LoggingActivity {
                         toastMessage,
                         Toast.LENGTH_LONG
                 ).show();
-
             }
         });
 
