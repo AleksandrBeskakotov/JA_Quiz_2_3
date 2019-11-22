@@ -56,6 +56,21 @@ public class MainActivity extends AppCompatActivity {
                 questionString.setText(currentQuestion.getQuestionResId());
             }
         });
+
+        Button prevButton = findViewById(R.id.prev_button);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurrentIndex == 0){
+                    mCurrentIndex = mQuestionBank.length - 1;
+                } else {
+                    mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
+                }
+
+                final Question currentQuestion = mQuestionBank[mCurrentIndex];
+                questionString.setText(currentQuestion.getQuestionResId());
+            }
+        });
     }
 
     private void onButtonClicked(boolean answer) {
