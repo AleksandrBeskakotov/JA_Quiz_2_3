@@ -12,8 +12,6 @@ public class MainActivity extends LoggingActivity {
 
     private static final String KEY_CURRENT_INDEX = "key_current_index";
     private static final String KEY_ARRAY_ANSWERS = "key_array_answers";
-    private static final String KEY_NUMBER_OF_ANSWERS = "key_number_of_answers";
-    private static final String KEY_NUMBER_OF_CORRECT_ANSWERS = "key_number_of_correct_answers";
     private static final String NO_ANSWER = "no_answer";
     private static final String CORRECT_ANSWER = "correct_answer";
     private static final String INCORRECT_ANSWER = "incorrect_answer";
@@ -47,8 +45,6 @@ public class MainActivity extends LoggingActivity {
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_CURRENT_INDEX);
             answers = savedInstanceState.getStringArray(KEY_ARRAY_ANSWERS);
-            numberOfAnswers = savedInstanceState.getInt(KEY_NUMBER_OF_ANSWERS);
-            numberOfCorrectAnswers = savedInstanceState.getInt(KEY_NUMBER_OF_CORRECT_ANSWERS);
         }
 
         final TextView questionString = findViewById(R.id.question_string);
@@ -86,6 +82,15 @@ public class MainActivity extends LoggingActivity {
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                for (int pos = 0; pos < mQuestionBank.length; pos++){
+                    if (answers[pos].equals(CORRECT_ANSWER) || answers[pos].equals(INCORRECT_ANSWER) ){
+                        numberOfAnswers++;
+                    }
+                    if (answers[pos].equals(CORRECT_ANSWER) ){
+                        numberOfCorrectAnswers++;
+                    }
+                }
                 String toastMessage = String.format("Answered %d/%d questions\n " +
                                       "Correct answers: %d", numberOfAnswers, numberOfQuestions, numberOfCorrectAnswers);
 
@@ -94,6 +99,10 @@ public class MainActivity extends LoggingActivity {
                         toastMessage,
                         Toast.LENGTH_LONG
                 ).show();
+
+                numberOfAnswers = 0;
+                numberOfCorrectAnswers = 0;
+
             }
         });
 
@@ -106,8 +115,6 @@ public class MainActivity extends LoggingActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_CURRENT_INDEX, mCurrentIndex);
         outState.putStringArray(KEY_ARRAY_ANSWERS,answers);
-        outState.putInt(KEY_NUMBER_OF_ANSWERS, numberOfAnswers);
-        outState.putInt(KEY_NUMBER_OF_CORRECT_ANSWERS, numberOfCorrectAnswers);
     }
 
     private void onButtonClicked(boolean answer) {
@@ -122,29 +129,13 @@ public class MainActivity extends LoggingActivity {
                 Toast.LENGTH_LONG
         ).show();
 
-        if (answers[mCurrentIndex] == NO_ANSWER){
-            if (currentQuestion.isCorrectAnswer() == answer){
-                numberOfCorrectAnswers++;
-                numberOfAnswers++;
-                answers[mCurrentIndex] = CORRECT_ANSWER;
-            } else {
-                numberOfAnswers++;
-                answers[mCurrentIndex] = INCORRECT_ANSWER;
-            }
+        if (currentQuestion.isCorrectAnswer() == answer){
+            answers[mCurrentIndex] = CORRECT_ANSWER;
         }
 
-        if (answers[mCurrentIndex] == CORRECT_ANSWER){
-            if (currentQuestion.isCorrectAnswer() != answer){
-                numberOfCorrectAnswers--;
-                answers[mCurrentIndex] = INCORRECT_ANSWER;
-            }
+        if (currentQuestion.isCorrectAnswer() != answer){
+            answers[mCurrentIndex] = INCORRECT_ANSWER;
         }
 
-        if (answers[mCurrentIndex] == INCORRECT_ANSWER){
-            if (currentQuestion.isCorrectAnswer() == answer){
-                numberOfCorrectAnswers++;
-                answers[mCurrentIndex] = CORRECT_ANSWER;
-            }
-        }
     }
 }
