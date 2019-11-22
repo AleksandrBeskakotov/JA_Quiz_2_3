@@ -11,6 +11,9 @@ import java.util.HashMap;
 public class MainActivity extends LoggingActivity {
 
     private static final String KEY_CURRENT_INDEX = "key_current_index";
+    private static final String KEY_ARRAY_ANSWERS = "key_array_answers";
+    private static final String KEY_NUMBER_OF_ANSWERS = "key_number_of_answers";
+    private static final String KEY_NUMBER_OF_CORRECT_ANSWERS = "key_number_of_correct_answers";
     private static final String NO_ANSWER = "no_answer";
     private static final String CORRECT_ANSWER = "correct_answer";
     private static final String INCORRECT_ANSWER = "incorrect_answer";
@@ -43,6 +46,9 @@ public class MainActivity extends LoggingActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_CURRENT_INDEX);
+            answers = savedInstanceState.getStringArray(KEY_ARRAY_ANSWERS);
+            numberOfAnswers = savedInstanceState.getInt(KEY_NUMBER_OF_ANSWERS);
+            numberOfCorrectAnswers = savedInstanceState.getInt(KEY_NUMBER_OF_CORRECT_ANSWERS);
         }
 
         final TextView questionString = findViewById(R.id.question_string);
@@ -100,6 +106,9 @@ public class MainActivity extends LoggingActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_CURRENT_INDEX, mCurrentIndex);
+        outState.putStringArray(KEY_ARRAY_ANSWERS,answers);
+        outState.putInt(KEY_NUMBER_OF_ANSWERS, numberOfAnswers);
+        outState.putInt(KEY_NUMBER_OF_CORRECT_ANSWERS, numberOfCorrectAnswers);
     }
 
     private void onButtonClicked(boolean answer) {
